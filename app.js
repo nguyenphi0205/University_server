@@ -4,17 +4,21 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var cors = require('cors')
 //start mysql connection
-var connection = mysql.createConnection({
+var pool = mysql.createPool({
+  connectionLimit: 10,
   host: 'us-cdbr-iron-east-02.cleardb.net', //mysql database host name
   user: 'b8af98308f6823', //mysql database user name
   password: '92c9542c', //mysql database password
   database: 'heroku_e5ed3ef6022bc7e' //mysql database name
 });
 
-connection.connect(function (err) {
-  if (err) throw err
-  console.log('You are now connected...')
-})
+function getConnection() {
+  return pool
+}
+// connection.connect(function (err) {
+//   if (err) throw err
+//   console.log('You are now connected...')
+// })
 //end mysql connection
 
 //start body-parser configuration
@@ -38,7 +42,9 @@ app.listen(PORT, () => {
 
 // });
 //rest api get user by role
+const connection = getConnection();
 app.get('/api/users', function (req, res) {
+  
   connection.query('select user.User_ID,user.Email,Password,user.First_Name,user.Last_Name,role.Role_Name FROM user join user_has_role on user.User_ID = user_has_role.User_ID join role on user_has_role.Role_ID = role.Role_ID', function (error, results, fields) {
     if (error) throw error;
     res.end(JSON.stringify(results));
