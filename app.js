@@ -5,10 +5,10 @@ var bodyParser = require('body-parser');
 var cors = require('cors')
 //start mysql connection
 var connection = mysql.createConnection({
-  host: 'localhost', //mysql database host name
-  user: 'root', //mysql database user name
-  password: '1234', //mysql database password
-  database: 'university_database' //mysql database name
+  host: 'us-cdbr-iron-east-02.cleardb.net', //mysql database host name
+  user: 'b8af98308f6823', //mysql database user name
+  password: '92c9542c', //mysql database password
+  database: 'heroku_e5ed3ef6022bc7e' //mysql database name
 });
 
 connection.connect(function (err) {
